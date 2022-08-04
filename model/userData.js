@@ -6,7 +6,7 @@ const Schema = mongoose.Schema;
 const userDataSchema = new Schema({
 
     username: String,
-    password: String,
+    otp: Number,
     email: String,
     provider:String,
     proPlayer:Boolean

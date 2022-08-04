@@ -73,7 +73,7 @@
         <!-- body content  -->
         <div class="app-body-main-content">
             <section class="service-section">
-                <h2>Pros</h2>
+                <h2>Learn for the Pros</h2>
                 <div class="service-section-header">
                     <div class="search-field">
                         <i class="ph-magnifying-glass"></i>
@@ -89,7 +89,7 @@
                         Toggle search
                     </button>
                 </div>
-                <div class="tiles">
+                <div class="tiles" (click)="singlePro()">
                     <article class="tile">
                         <div class="tile-header">
                             <i class="ph-lightning-light"></i>
@@ -100,7 +100,7 @@
                         </div>
                   
                     </article>
-                    <article class="tile">
+                    <article class="tile"(click)="singlePro()">
                         <div class="tile-header">
                             <i class="ph-fire-simple-light"></i>
                             <h3>
@@ -110,7 +110,7 @@
                         </div>
                       
                     </article>
-                    <article class="tile">
+                    <article class="tile" (click)="singlePro()">
                         <div class="tile-header">
                             <i class="ph-file-light"></i>
                             <h3>
@@ -121,9 +121,9 @@
                   
                     </article>
                 </div>
-                <div class="service-section-footer">
+                <!-- <div class="service-section-footer">
                     <p>Featured Ones. </p>
-                </div>
+                </div> -->
             </section>
 
             <!-- Parties  -->
@@ -266,22 +266,16 @@
                         </div>
                     </div>
                 </div>
-                <!-- <div class="faq">
-                    <p>Most frequently asked questions</p>
-                    <div>
-                        <label>Question</label>
-                        <input type="text" placeholder="Type here">
+                <div class="faq">
+                    <p>Want to be a Pro?</p>
+                    <div class="payment-section-footer">
+                        <button class="save-button">
+                            Request
+                        </button>
                     </div>
                 </div>
-                <div class="payment-section-footer">
-                    <button class="save-button">
-                        Save
-                    </button>
-                    <button class="settings-button">
-                        <i class="ph-gear"></i>
-                        <span>More settings</span>
-                    </button>
-                </div> -->
+                
+                 
             </section>
         </div>
     </div>

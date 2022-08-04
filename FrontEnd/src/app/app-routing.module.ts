@@ -5,6 +5,7 @@ import { LoginComponent } from './login/login.component';
 import { TwitchComponent } from './twitch/twitch.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { StripeComponent } from './stripe/stripe.component';
+import { SingleProComponent } from './single-pro/single-pro.component';
 
 const routes: Routes = [
 
@@ -28,6 +29,10 @@ const routes: Routes = [
   {
     path:'payment',
     component:StripeComponent  
+  },
+  {
+    path:'ProPlayer',
+    component:SingleProComponent  
   }
   
 ];

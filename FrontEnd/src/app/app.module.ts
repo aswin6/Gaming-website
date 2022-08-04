@@ -27,6 +27,7 @@ import { LoginComponent } from './login/login.component';
 import { HeroService } from './hero.service';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { StripeComponent } from './stripe/stripe.component';
+import { SingleProComponent } from './single-pro/single-pro.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { StripeComponent } from './stripe/stripe.component';
     TwitchComponent,
     LoginComponent,
     DashboardComponent,
-    StripeComponent
+    StripeComponent,
+    SingleProComponent
   ],
   imports: [
     BrowserModule,

@@ -26,6 +26,10 @@ export class HeroService {
 
   makePayment(stripeToken: any){
     return this.http.post<any>(`${this.server_address}/stripe`,{token:stripeToken});
-
   }
+
+  OTPGo(data:any,email:any){
+    return this.http.post<any>(`${this.server_address}/auth/verifyOTP`, {data,email});
+  }
+
 }

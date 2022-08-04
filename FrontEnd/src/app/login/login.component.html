@@ -2,7 +2,7 @@
 
     <div class="container" [ngClass]="{'right-panel-active':modal === true}" id="container">
         <div class="form-container sign-up-container">
-            <form [formGroup]="SignUpForm" (ngSubmit)="SignUp()">
+            <form [formGroup]="SignUpForm" (ngSubmit)="SignUp()" *ngIf="!otp">
                 <h1>Create Account</h1>
                 <div class="social-container">
                     <a (click)="signInWithDiscord()" style="cursor:pointer ;">
@@ -12,10 +12,14 @@
                     </a>
                 </div>
                 <span>or use your email for registration</span>
-                <input type="text" formControlName="username" placeholder="Name" />
                 <input type="email" formControlName="email" placeholder="Email" />
-                <input type="password" formControlName="password" placeholder="Password" />
                 <button type="submit" value="Submit">Sign Up</button>
+            </form>
+            <form [formGroup]="OTPForm" (ngSubmit)="OTP()" *ngIf="otp">
+                <h1>Enter your OTP send to your email</h1>
+              
+                <input type="number" formControlName="otp" placeholder="OTP" />
+                <button type="submit" value="Submit">Submit</button>
             </form>
         </div>
         <div class="form-container sign-in-container">
@@ -29,8 +33,7 @@
                 </div>
                 <span>or use your account</span>
                 <input type="email" placeholder="Email" />
-                <input type="password" placeholder="Password" />
-                <a href="#">Forgot your password?</a>
+               
                 <button (click)="signIn()">Sign In</button>
             </form>
         </div>

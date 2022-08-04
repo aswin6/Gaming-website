@@ -21,6 +21,7 @@ export class LoginComponent implements OnInit {
   modal: boolean = false
   socialUser!: SocialUser;
   isLoggedin: boolean = false;
+  otp: boolean = false
 
   constructor(private authService: SocialAuthService,
     private router: Router,
@@ -37,53 +38,53 @@ export class LoginComponent implements OnInit {
 
         // save to DB 
         this._heroService.googleSave(this.socialUser)
-        .subscribe(
-          {
-            next: (res) => {
-              if (res) {
-  
-                Swal.fire({
-                  icon: 'success',
-                  title: 'Sign Up successfully',
-                  showConfirmButton: false,
-                  timer: 1500
-                }).then(() => {
-                  this.router.navigate(['/login'])
-                  this.modal = false
-                })
-  
-              }
-            },
-            error: (err) => {
-              if (err.status === 409) {
-                Swal.fire({
-                  icon: 'error',
-                  title: 'Email ID already registered',
-                  showConfirmButton: false,
-                  timer: 1500
-                }).then(() => {
-                  this.router.navigate(['/login'])
-                  this.modal = false
-  
-                })
-              }
-              else{
-                Swal.fire({
-                  icon: 'error',
-                  title: 'ENetwork Error. Please try again',
-                  showConfirmButton: false,
-                  timer: 1500
-                }).then(() => {
-                  this.router.navigate(['/login'])
-                  this.modal = false
-          
-                })
+          .subscribe(
+            {
+              next: (res) => {
+                if (res) {
+
+                  Swal.fire({
+                    icon: 'success',
+                    title: 'Sign Up successfully',
+                    showConfirmButton: false,
+                    timer: 1500
+                  }).then(() => {
+                    this.router.navigate(['/login'])
+                    this.modal = false
+                  })
+
+                }
+              },
+              error: (err) => {
+                if (err.status === 409) {
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Email ID already registered',
+                    showConfirmButton: false,
+                    timer: 1500
+                  }).then(() => {
+                    this.router.navigate(['/login'])
+                    this.modal = false
+
+                  })
+                }
+                else {
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'ENetwork Error. Please try again',
+                    showConfirmButton: false,
+                    timer: 1500
+                  }).then(() => {
+                    this.router.navigate(['/login'])
+                    this.modal = false
+
+                  })
+                }
               }
             }
-          }
-  
-        )
-       
+
+          )
+
 
       }
       else {
@@ -100,11 +101,11 @@ export class LoginComponent implements OnInit {
       })
   }
 
-  signInWithDiscord(){
+  signInWithDiscord() {
     this._heroService.discordSign()
-    .subscribe(res=>{
-      console.log(res)
-    })
+      .subscribe(res => {
+        console.log(res)
+      })
   }
 
   signOut(): void {
@@ -116,22 +117,61 @@ export class LoginComponent implements OnInit {
   }
 
 
-  signIn(){
+  signIn() {
     this.router.navigate(['/dashboard'])
   }
 
   // login
 
   SignUpForm: any = new FormGroup({
-    'username': new FormControl(''),
     'email': new FormControl(''),
-    'password': new FormControl('')
+
+  })
+
+  OTPForm: any = new FormGroup({
+    'otp': new FormControl('')
+
   })
 
   SignUp() {
 
     let SignUpData = this.SignUpForm.value;
     this._heroService.signupGo(SignUpData)
+      .subscribe(res => {
+        if (res) {
+          console.log(res)
+          let emailTocheck = res.email
+          if (emailTocheck) {
+            localStorage.setItem('email', res.email)
+          }
+          this.otp = true;
+
+        }
+        else {
+          Swal.fire({
+            icon: 'error',
+            title: 'ENetwork Error. Please try again',
+            showConfirmButton: false,
+            timer: 1500
+          }).then(() => {
+            this.router.navigate(['/login'])
+            this.modal = false
+
+          })
+        }
+      })
+  }
+
+
+
+
+
+
+  OTP() {
+    let OTPdata = this.OTPForm.value;
+    let email = localStorage.getItem('email')
+    console.log(OTPdata, email)
+    this._heroService.OTPGo(OTPdata, email)
       .subscribe(
         {
           next: (res) => {
@@ -150,19 +190,19 @@ export class LoginComponent implements OnInit {
             }
           },
           error: (err) => {
-            if (err.status === 409) {
+            if (err.status === 401) {
               Swal.fire({
                 icon: 'error',
-                title: 'Email ID already registered',
+                title: 'Wrong OTP. Enter Again',
                 showConfirmButton: false,
                 timer: 1500
               }).then(() => {
                 this.router.navigate(['/login'])
-                this.modal = false
+                // this.modal = false
 
               })
             }
-            else{
+            else {
               Swal.fire({
                 icon: 'error',
                 title: 'ENetwork Error. Please try again',
@@ -171,15 +211,11 @@ export class LoginComponent implements OnInit {
               }).then(() => {
                 this.router.navigate(['/login'])
                 this.modal = false
-        
+
               })
             }
           }
-        }
-
-      )
-
-
+        })
   }
 
 
