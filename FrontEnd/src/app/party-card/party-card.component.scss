@@ -1,0 +1,240 @@
+:root {
+    --clr-white: #fff;
+    --clr-dark-gray: #BOB3B8;
+    --fw-light: 300;
+  }
+  
+  body {
+    font-family: "Raleway", sans-serif;
+    margin: 2em;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  // * * * * * * * * * * * * * * * *
+  /* Floating animation */
+  // * * * * * * * * * * * * * * * *
+  @keyframes float {
+    0% {
+      transform: translatey(0px);
+    }
+    50% {
+      transform: translatey(-20px);
+    }
+    100% {
+      transform: translatey(0px);
+    }
+  }
+  
+  // * * * * * * * * * * * * *
+  /* General card container */
+  // * * * * * * * * * * * * *
+  .card {
+    display: flex;
+    padding: 3em;
+    background: rgb(223,0,9);
+    background: radial-gradient(
+      circle,
+      rgba(223, 0, 9, 1) 76%,
+      rgba(255, 80, 62, 1) 100%
+    );
+    border-radius: 2em;
+    -webkit-box-shadow: 0px 5px 18px -6px rgba(255, 148, 135, 0.72);
+    box-shadow: 0px 5px 18px -6px rgba(255, 148, 135, 0.72);
+    max-width: 900px;
+    margin: 0 auto;
+  
+    /* Card inner content */
+    .card__content {
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+  
+      /* Left side content */
+      .card__content-left {
+        display: flex;
+        flex-basis: 60%;
+        flex-direction: column;
+        position: relative;
+        padding-left: 12em;
+        color: white;
+  
+        /* Floating image */
+        img {
+          position: absolute;
+          left: 0.4em;
+          top: -11em;
+          -webkit-filter: drop-shadow(5px 5px 15px rgba(0, 0, 0, 0.4));
+          animation: float 6s ease-in-out infinite;
+        }
+        h1,
+        h2 {
+          color: #fff;
+          margin: 0px;
+        }
+  
+        h1 {
+          font-size: clamp(40px, 5vw, 50px);
+        }
+  
+        h2 {
+          font-size: clamp(30px, 3vw, 30px);
+          font-weight: 300;
+        }
+      }
+  
+      /* Right side content */
+      .card__content-right {
+        h3 {
+          color: #fff;
+          font-size: clamp(14px, 1.5vw, 14px);
+          font-weight: 400;
+          letter-spacing: 0.8px;
+          line-height: 140%;
+          margin-bottom: 0px;
+        }
+  
+        .info-content {
+          display: flex;
+          align-items: flex-end;
+          justify-content: space-between;
+  
+          ul {
+            margin: 0px;
+            padding-left: 0px;
+            list-style: none;
+  
+            li {
+              margin-bottom: 10px;
+  
+              &:last-of-type {
+                margin-bottom: 0px;
+              }
+  
+              p {
+                font-size: clamp(12px, 1.3vw, 12px);
+                letter-spacing: 0.8px;
+                color: #fff;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+  
+                /* Icon list */
+                // Feel free to change the images for svg icons or such.
+                &.sound {
+                  &::before {
+                    content: "";
+                    display: inline-block;
+                    width: 20px;
+                    height: 20px;
+                    background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Speaker_Icon.svg/1024px-Speaker_Icon.svg.png");
+                    background-size: contain;
+                    background-repeat: no-repeat;
+                    filter: invert(100%);
+                  }
+                }
+  
+                &.comfort {
+                  &::before {
+                    content: "";
+                    display: inline-block;
+                    width: 20px;
+                    height: 20px;
+                    background-image: url("https://cdn-icons-png.flaticon.com/512/153/153312.png");
+                    background-size: contain;
+                    background-repeat: no-repeat;
+                    filter: invert(100%);
+                  }
+                }
+  
+                &.noice {
+                  &::before {
+                    content: "";
+                    display: inline-block;
+                    width: 20px;
+                    height: 20px;
+                    background-image: url("https://cdn-icons-png.flaticon.com/512/32/32211.png");
+                    background-size: contain;
+                    background-repeat: no-repeat;
+                    filter: invert(100%);
+                  }
+                }
+              }
+            }
+          }
+  
+          /* Shop button */
+          a {
+            background-color: #fff;
+            border-radius: 25px;
+            border: none;
+            padding: 10px 35px;
+            text-decoration: none;
+            font-weight: 600 !important;
+            letter-spacing: 0.8px;
+            color: rgb(223,0,9)!important;
+            transition: transform 0.3s ease-in;
+  
+            &:hover {
+              transform: translate(0px, -3px);
+            }
+          }
+        }
+      }
+    }
+  
+    /* Medium screens query */
+    @media only screen and (max-width: 800px) {
+      & {
+        .card__content {
+          flex-wrap: wrap;
+  
+          .card__content-left {
+            padding-left: 0px;
+            flex-basis: 100%;
+  
+            img {
+              max-width: 120px;
+              position: absolute;
+              right: 0px;
+              left: unset;
+              top: -7em;
+            }
+          }
+  
+          .card__content-right {
+            h3 {
+              margin-bottom: 1em;
+            }
+          }
+        }
+      }
+    }
+  
+    /* Small screens query */
+    @media only screen and (max-width: 450px) {
+      & {
+        .card__content-right {
+          .info-content {
+            flex-direction: column;
+            align-items: flex-start !important;
+  
+            ul {
+              margin-bottom: 1.5em !important;
+            }
+  
+            a {
+              width: -webkit-fill-available;
+              text-align: center;
+            }
+          }
+        }
+      }
+
+
+    }
+  }
+  
+  
