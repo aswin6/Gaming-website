@@ -10,9 +10,11 @@ import { CarouselModule } from 'ngx-owl-carousel-o';
 
 import { SocialLoginModule, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
 import {
-  GoogleLoginProvider,
+  GoogleLoginProvider
+    
   
 } from '@abacritt/angularx-social-login';
+import {NgxStripeModule} from 'ngx-stripe'
 
 
 // component 
@@ -23,6 +25,8 @@ import { PlayerCardComponent } from './player-card/player-card.component';
 import { TwitchComponent } from './twitch/twitch.component';
 import { LoginComponent } from './login/login.component';
 import { HeroService } from './hero.service';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { StripeComponent } from './stripe/stripe.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +35,9 @@ import { HeroService } from './hero.service';
     PartyCardComponent,
     PlayerCardComponent,
     TwitchComponent,
-    LoginComponent
+    LoginComponent,
+    DashboardComponent,
+    StripeComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +47,8 @@ import { HeroService } from './hero.service';
     SocialLoginModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxStripeModule.forRoot('pk_test_51LT4FJSBGyD7UYjV7Uzl35ECOGv6TAtzwwYlAokpfqWpLNoXEZq1Ov3RoijNAxrN5fRhYqxzedauoF7tyFlbgr9q002zPPPLTa')
 
     
   ],
@@ -54,7 +61,7 @@ import { HeroService } from './hero.service';
           {
             id: GoogleLoginProvider.PROVIDER_ID,
             provider: new GoogleLoginProvider('175613608118-or5k2udnug8clivm7enruru42qnk6qd4.apps.googleusercontent.com'),
-          },
+          }        
         ],
         onError: (err) => {
           console.error(err);

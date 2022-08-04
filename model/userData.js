@@ -8,6 +8,7 @@ const userDataSchema = new Schema({
     username: String,
     password: String,
     email: String,
+    provider:String,
     proPlayer:Boolean
 
 });

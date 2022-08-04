@@ -2,36 +2,50 @@ const express = require('express');
 const router = express.Router()
 const USERDATA = require('../model/userData');
 const createError = require('http-errors')
+const auth = require('./auth')
+
+const stripe = require('stripe')('sk_test_51LT4FJSBGyD7UYjVVOug1IelJFPempEWB9h8c2O260SlpUzWMrJ9vo8Av6iKDbrv8oVOeNm5QjL6fpgCVbnQBpav00CpBjJ2kJ');
 
 
-router.post('/signUp', async (req, res, next) => {
+router.use('/auth', auth)
+
+router.post('/stripe', async (req, res) => {
 
     try {
-
-        console.log("entered", req.body)
-
-        let item = {
-            username: req.body.username,
-            password: req.body.password,
-            email: req.body.email,
-            proPlayer: false,
-        }
-
-        const doesExist = await USERDATA.findOne({ email: item.email })
-        if (doesExist) throw createError.Conflict(`${item.email} is already been registered`)
-
-
-        const USER = new USERDATA(item)
-        const savedIdData = await USER.save()
-
-        res.send({ savedIdData })
-    }
-
-    catch (error) {
-
+        console.log(req.body);
+        token = req.body.token
+        stripe.customers
+            .create({
+                email: "ashi@gmail.com",
+                source: token.id
+            })
+            .then((customer) => {
+                console.log(customer);
+                return stripe.paymentIntents.create({
+                    amount: 1000,
+                    description: "Payment",
+                    currency: "USD",
+                    customer: customer.id,
+                });
+            })
+            .then((charge) => {
+                console.log(charge);
+                res.json({
+                    data: "success"
+                })
+            })
+            .catch((err) => {
+                console.log('err',err)
+                res.json({
+                    data: "failure",
+                });
+            });
+        return true;
+    } catch (error) {
         console.log(error)
-        next(error)
+        return false;
     }
+
 
 
 })
