@@ -78,4 +78,9 @@ export class DashboardComponent implements OnInit {
 singlePro(){
   this.router.navigate(['/ProPlayer'])
 }
+
+profile(){
+  this.router.navigate(['/profile'])
+
+}
 }

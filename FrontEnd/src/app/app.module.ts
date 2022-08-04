@@ -28,6 +28,7 @@ import { HeroService } from './hero.service';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { StripeComponent } from './stripe/stripe.component';
 import { SingleProComponent } from './single-pro/single-pro.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { SingleProComponent } from './single-pro/single-pro.component';
     LoginComponent,
     DashboardComponent,
     StripeComponent,
-    SingleProComponent
+    SingleProComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

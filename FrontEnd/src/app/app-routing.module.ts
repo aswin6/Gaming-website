@@ -6,6 +6,7 @@ import { TwitchComponent } from './twitch/twitch.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { StripeComponent } from './stripe/stripe.component';
 import { SingleProComponent } from './single-pro/single-pro.component';
+import { ProfileComponent } from './profile/profile.component';
 
 const routes: Routes = [
 
@@ -33,6 +34,10 @@ const routes: Routes = [
   {
     path:'ProPlayer',
     component:SingleProComponent  
+  },
+  {
+    path:'profile',
+    component:ProfileComponent  
   }
   
 ];

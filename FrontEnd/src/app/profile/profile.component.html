@@ -1,0 +1,59 @@
+<div class="body1">
+    <div class="container pt-16">
+        <div id="container">
+            <div class="imgDiv">
+                <a href="" class="proPic"><img src="../../assets/images/logo.png" alt=""></a>
+            </div>
+
+            <form [formGroup]="ProfileForm" (ngSubmit)='profile()'>
+                <div class="name">
+                    <label for="name"> Name <sup class="text-danger">*</sup></label>
+                    <input type="text" id="name_input" formControlName="name">
+                </div>
+                <div class="email">
+                    <label for="name"> Country <sup class="text-danger">*</sup></label>
+                    <input type="text" id="name_input" formControlName="country">
+                </div>
+
+                <div class="name">
+                    <label for="name">Gamer<sup class="text-danger">*</sup></label>
+                    <select class="form-control custom-select" formControlName="gamer">
+                        <option value="">Activision</option>
+                        <option value="">Battlenet</option>
+
+                    </select>
+                </div>
+                <div class="email">
+                    <label for="name"> Id <sup class="text-danger">*</sup></label>
+                    <input type="text" id="name_input" formControlName="gamerID">
+                </div>
+                <div class="name">
+                    <label for="name"> Platform <sup class="text-danger">*</sup></label>
+                    <select class="form-control custom-select" formControlName="platform">
+                        <option value="">PC</option>
+                        <option value="">Console</option>
+                        <option value="">Mobile</option>
+                    </select>
+                </div>
+
+                <div class="email">
+                    <label for="name"> W/R ratio <sup class="text-danger">*</sup></label>
+                    <input type="text" id="name_input" formControlName="wr">
+                </div>
+
+
+                <div class="name">
+                    <label for="name"> KD <sup class="text-danger">*</sup></label>
+                    <input type="text" id="name_input" formControlName="kd">
+                </div>
+                <div class="email">
+                    <label for="name"> ELO <sup class="text-danger">*</sup></label>
+                    <input type="text" id="name_input" formControlName="elo">
+                </div>
+                <div class="submit text-center">
+                    <button type="submit" id="form_button">Register</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
