@@ -9,7 +9,10 @@ const userDataSchema = new Schema({
     otp: Number,
     email: String,
     provider:String,
-    proPlayer:Boolean
+    proPlayer:Boolean,
+    superAdmin:Boolean,
+    adminReq:Boolean,
+    discordID:Number
 
 });
 

@@ -1,9 +1,13 @@
-const passport = require('passport')
-const { Strategy } = require('passport-discord');
 const UserData = require('../model/userData');
 const USERDATA = require('../model/userData');
+const createError = require('http-errors');
+
+const passport = require('passport')
+const { Strategy } = require('passport-discord');
+
 
 passport.serializeUser((user, done) => {
+    console.log("serializer", user.id)
     done(null, user.id);
 });
 
@@ -12,11 +16,11 @@ passport.deserializeUser(async (id, done) => {
         const user = await UserData.findById(id)
         if (!user) throw new Error('User not Found')
 
-        console.log(user)
+        console.log(user, 'deserializer')
         done(null, user)
 
     } catch (error) {
-        console.log(error)
+        console.log(error, 'deserializer')
         done(err, null)
     }
 });
@@ -36,8 +40,9 @@ passport.use(new Strategy({
             const discordUser = await USERDATA.findOne({ email: profile.email })
 
             if (discordUser) {
-                console.log("User Exists")
-                return done(null, discordUser)
+              const discordError =  createError.Conflict(`${profile.email} is already been registered by ${discordUser.provider}. Use it to login`)
+             console.log(discordError)
+              return done(null, discordUser)
             }
             else {
 
@@ -59,7 +64,6 @@ passport.use(new Strategy({
 
         } catch (err) {
             console.log(err);
-            next(err)
             return done(err, null)
 
         }

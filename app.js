@@ -1,20 +1,32 @@
 const express = require('express');
+const app = express();
+
+
+
 const mongoose = require('mongoose');
 const logger = require('morgan');
 const cors = require('cors');
+app.use(cors());
+
+
+// for socket 
+let http = require('http');
+let server = http.Server(app);
+let socketIO = require('socket.io');
+let io = socketIO(server);
+
+
 const createError = require('http-errors');
 var session = require('express-session')
 // const path = require('path');
 // const { verifyAccessToken } = require('./helpers/jwt_helper')
-const app = express();
-
 
 
 
 // require 
 require('dotenv').config();
 require('./helpers/init_mongodb')  //mongoDB connection handler
-
+require('./controller/bot')
 
 
 //env variables
@@ -25,7 +37,6 @@ const PORT = process.env.PORT || 8887;
 
 // app.use 
 
-app.use(cors());
 app.use(express.static('public'));
 app.use(logger('dev'));
 app.use(express.json());
@@ -39,17 +50,19 @@ app.use(session({      //session creation
 
 require('./controller/discord')
 
-app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", '*');
-    res.header("Acess-Control-Allow-Methods:GET,POST,PATCH,PUT,DELETE,OPTIONS");
-    next();
-});
+// io.on('connection', (socket) => {
+//     console.log('user connected');
+
+//     socket.on('new-message', (message) => {
+//         console.log(message);
+//     });
+// });
 
 
 
 // api 
 const api = require('./routes/api')
-app.use('/api',api)
+app.use('/api', api)
 
 
 
@@ -66,13 +79,14 @@ app.use(async (req, res, next) => {
 })
 
 app.use((err, req, res, next) => {
-    console.log("error outside app.js", err,err.status,err.message)
+    console.log("error outside app.js", err, err.status, err.message)
     res.status(err.status || 500).send(err.message)
 })
 
 
 
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     console.log(`.....SERVER started at ${PORT}`)
 });
+

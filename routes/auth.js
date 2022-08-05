@@ -5,6 +5,7 @@ const createError = require('http-errors')
 const passport = require('passport')
 const { generateOTP } = require('../helpers/otp-generator');
 const nodemailer = require('nodemailer');
+const jwt = require('jsonwebtoken');
 
 //email
 
@@ -16,6 +17,8 @@ var transporter = nodemailer.createTransport({
     },
 });
 
+//jwt
+const { signAccessToken } = require('../helpers/jwt_helper')
 
 
 
@@ -24,18 +27,28 @@ router.post('/signUp', async (req, res, next) => {
 
     try {
 
-
-
-
-        const doesExist = await USERDATA.findOne({ email: req.body.email })
-        if (doesExist) throw createError.Conflict(`${req.body.email} is already been registered`)
-
-        console.log(req.body.email)
         // generate the otp
         var otp = Math.random();
         otp = otp * 1000000;
         otp = parseInt(otp);
         console.log(otp);
+
+        let item = {
+            email: req.body.email,
+            provider: 'mail',
+            proPlayer: false,
+            superAdmin:false,
+            otp: otp
+        }
+
+        const doesExist = await USERDATA.findOne({ email: item.email })
+
+        if (doesExist) {
+            if (doesExist.provider != item.provider)
+                throw createError.Conflict(`${item.email} is already been registered by ${doesExist.provider}. Use it to login`)
+        }
+
+
 
         // send mail with defined transport object
         var mailOptions = {
@@ -55,22 +68,31 @@ router.post('/signUp', async (req, res, next) => {
         });
 
 
-        let item = {
-            username: req.body.username,
-            email: req.body.email,
-            provider: 'mail',
-            proPlayer: false,
-            otp: otp
-        }
-        const USER = new USERDATA(item)
-        const savedIdData = await USER.save()
+        if (!doesExist) {
+            const USER = new USERDATA(item)
+            const savedIdData = await USER.save()
 
-        res.send({ email: savedIdData.email })
+            res.send({ email: savedIdData.email })
+        }
+        else {
+
+            let otpUpdate = { otp: otp }
+
+            let updateData = { $set: otpUpdate };
+            const savedData = await USERDATA.findByIdAndUpdate({ "_id": doesExist._id }, updateData)
+            console.log("otp updated")
+            res.send(savedData)
+
+        }
+
+
     }
+
+
 
     catch (error) {
 
-        console.log("error1", error)
+        console.log("Email error", error)
         next(error)
     }
 
@@ -92,8 +114,13 @@ router.post('/verifyOTP', async (req, res, next) => {
 
         else if (user && user.otp !== otp) throw createError(401, 'Wrong OTP')
         else {
-            console.log("Sucess")
-            res.send(user).status(200)
+
+            let role = user.proPlayer ? 'professional' : 'normal';
+            let superAdmin = user.superAdmin?'super':'normal'
+            const accessToken = await signAccessToken(email, role,superAdmin)
+            res.send({ accessToken })
+            console.log("access token", accessToken)
+
 
         }
     } catch (error) {
@@ -113,12 +140,19 @@ router.post('/verifyOTP', async (req, res, next) => {
 
 
 //discord
-router.get('/discord', passport.authenticate('discord'), (req, res) => {
-    res.send(200)
+router.get('/discord', passport.authenticate('discord'), (err) => {
+   if(err){
+    console.log(err, 'errorrrr')
+   }
 })
 
 router.get('/discord/redirect', passport.authenticate('discord'), (req, res) => {
-    res.send(200)
+    try {
+
+        res.status(200).send("Added")
+    } catch (error) {
+        console.log('discord',error)
+    }
 })
 
 //google Save
@@ -127,23 +161,34 @@ router.post('/googleSave', async (req, res, next) => {
 
     try {
 
-        console.log("entered", req.body)
 
         let item = {
             username: req.body.name,
             email: req.body.email,
             provider: req.body.provider,
             proPlayer: false,
+            superAdmin:false
         }
 
         const doesExist = await USERDATA.findOne({ email: item.email })
-        if (doesExist) throw createError.Conflict(`${item.email} is already been registered`)
+        if (doesExist) {
+            if (doesExist.provider != item.provider) throw createError.Conflict(`${item.email} is already been registered by ${doesExist.provider}. Use it to login`)
 
+            let role = doesExist.proPlayer ? 'professional' : 'normal';
+            let superAdmin = doesExist.superAdmin?'super':'normal'
+            const accessToken = await signAccessToken(item.email, role,superAdmin)
+            res.send({ accessToken })
+            console.log("access token", accessToken)
+        }
 
-        const USER = new USERDATA(item)
-        const savedIdData = await USER.save()
+        else {
+            const USER = new USERDATA(item)
+            const savedIdData = await USER.save()
+            console.log("saved data")
+            res.send({ savedIdData })
 
-        res.send({ savedIdData })
+        }
+
     }
 
     catch (error) {

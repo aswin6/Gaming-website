@@ -36,21 +36,21 @@ export class LoginComponent implements OnInit {
 
       if (this.socialUser != null) {
 
-        // save to DB 
+        // save to DB ,also check
         this._heroService.googleSave(this.socialUser)
           .subscribe(
             {
               next: (res) => {
                 if (res) {
+                  localStorage.setItem('accessToken', res.accessToken)
 
                   Swal.fire({
                     icon: 'success',
-                    title: 'Sign Up successfully',
+                    title: 'Sign In successfully',
                     showConfirmButton: false,
                     timer: 1500
                   }).then(() => {
-                    this.router.navigate(['/login'])
-                    this.modal = false
+                    this.router.navigate(['/dashboard'])
                   })
 
                 }
@@ -137,54 +137,67 @@ export class LoginComponent implements OnInit {
 
     let SignUpData = this.SignUpForm.value;
     this._heroService.signupGo(SignUpData)
-      .subscribe(res => {
-        if (res) {
-          console.log(res)
-          let emailTocheck = res.email
-          if (emailTocheck) {
-            localStorage.setItem('email', res.email)
-          }
-          this.otp = true;
-
-        }
-        else {
-          Swal.fire({
-            icon: 'error',
-            title: 'ENetwork Error. Please try again',
-            showConfirmButton: false,
-            timer: 1500
-          }).then(() => {
-            this.router.navigate(['/login'])
-            this.modal = false
-
-          })
-        }
-      })
-  }
-
-
-
-
-
-
-  OTP() {
-    let OTPdata = this.OTPForm.value;
-    let email = localStorage.getItem('email')
-    console.log(OTPdata, email)
-    this._heroService.OTPGo(OTPdata, email)
       .subscribe(
         {
           next: (res) => {
             if (res) {
 
+              let emailTocheck = res.email
+              if (emailTocheck) {
+                localStorage.setItem('email', res.email)
+              }
+              this.otp = true;
+
+            }
+          },
+          error: (err) => {
+            if (err.status === 409) {
+              Swal.fire({
+                icon: 'error',
+                title: 'Email ID already registered with different provider',
+                showConfirmButton: false,
+                timer: 1500
+              }).then(() => {
+                this.router.navigate(['/login'])
+                this.modal = false
+
+              })
+            }
+            else {
+              Swal.fire({
+                icon: 'error',
+                title: 'Network Error. Please try again',
+                showConfirmButton: false,
+                timer: 1500
+              }).then(() => {
+                this.router.navigate(['/login'])
+                this.modal = false
+
+              })
+            }
+          }
+        }
+
+      )
+  }
+
+  OTP() {
+    let OTPdata = this.OTPForm.value;
+    let email = localStorage.getItem('email')
+    this._heroService.OTPGo(OTPdata, email)
+      .subscribe(
+        {
+          next: (res) => {
+            if (res) {
+              localStorage.removeItem('email')
+              localStorage.setItem('accessToken', res.accessToken)
               Swal.fire({
                 icon: 'success',
                 title: 'Sign Up successfully',
                 showConfirmButton: false,
                 timer: 1500
               }).then(() => {
-                this.router.navigate(['/login'])
-                this.modal = false
+                this.router.navigate(['/'])
               })
 
             }
@@ -198,19 +211,17 @@ export class LoginComponent implements OnInit {
                 timer: 1500
               }).then(() => {
                 this.router.navigate(['/login'])
-                // this.modal = false
 
               })
             }
             else {
               Swal.fire({
                 icon: 'error',
-                title: 'ENetwork Error. Please try again',
+                title: 'Network Error. Please try again',
                 showConfirmButton: false,
                 timer: 1500
               }).then(() => {
                 this.router.navigate(['/login'])
-                this.modal = false
 
               })
             }

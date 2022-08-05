@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+declare const Twitch: any;
 
 @Component({
   selector: 'app-twitch',
@@ -7,9 +8,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TwitchComponent implements OnInit {
 
+
+
   constructor() { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit() {
+    var options = {
+        width: 854,
+        height: 480,
+        channel: "ashinamanulla",
+        video: "<video ID>",
+        collection: "<collection ID>",
+      };
+      var player = new Twitch.Player("twichTest", options);
+      player.setVolume(0.5);
+   }
 
 }

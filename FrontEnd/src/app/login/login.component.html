@@ -1,11 +1,11 @@
 <div class="body">
 
-    <div class="container" [ngClass]="{'right-panel-active':modal === true}" id="container">
+    <div class="container right-panel-active"  id="container">
         <div class="form-container sign-up-container">
             <form [formGroup]="SignUpForm" (ngSubmit)="SignUp()" *ngIf="!otp">
-                <h1>Create Account</h1>
+                <h1>Sign In</h1>
                 <div class="social-container">
-                    <a (click)="signInWithDiscord()" style="cursor:pointer ;">
+                    <a href="http://localhost:8887/api/auth/discord" style="cursor:pointer ;">
                         <i class="fab fa-discord"></i></a>
                     <a (click)="signInWithGoogle()" style="cursor:pointer ;">
                         <asl-google-signin-button #googleBtnRef></asl-google-signin-button>
@@ -22,33 +22,14 @@
                 <button type="submit" value="Submit">Submit</button>
             </form>
         </div>
-        <div class="form-container sign-in-container">
-            <form action="#">
-                <h1>Sign in</h1>
-                <div class="social-container">
-                    <a (click)='signIn()' style="cursor:pointer ;"><i class="fab fa-discord"></i></a>
-                    <a (click)="signIn()" style="cursor:pointer ;">
-                        <asl-google-signin-button #googleBtnRef></asl-google-signin-button>
-                    </a>
-                </div>
-                <span>or use your account</span>
-                <input type="email" placeholder="Email" />
-               
-                <button (click)="signIn()">Sign In</button>
-            </form>
-        </div>
+      
         <div class="overlay-container">
             <div class="overlay">
                 <div class="overlay-panel overlay-left">
-                    <h1>Welcome Back!</h1>
-                    <p>To keep connected with us please login with your personal info</p>
-                    <button class="ghost" id="signIn" (click)="switch()">Sign In</button>
+                    <h1>Hello Friend!</h1>
+                    <p>One click away to the world of Pros</p>
                 </div>
-                <div class="overlay-panel overlay-right">
-                    <h1>Hello, Friend!</h1>
-                    <p>Enter your personal details and start journey with us</p>
-                    <button class="ghost" id="signUp" (click)="switch()">Sign Up</button>
-                </div>
+             
             </div>
         </div>
     </div>

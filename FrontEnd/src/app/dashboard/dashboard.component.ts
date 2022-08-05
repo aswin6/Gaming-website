@@ -14,6 +14,7 @@ export class DashboardComponent implements OnInit {
   constructor(
     private router: Router,
     private _heroService: HeroService,
+    public _auth: HeroService
   ) { }
 
   paymentHandler: any = null;
@@ -22,8 +23,12 @@ export class DashboardComponent implements OnInit {
 
   failure: boolean = false
 
+  partyname : any
+
   ngOnInit(): void {
     this.invokeStripe()
+    this.getParty()
+
   }
 
   makePayment(amount: number) {
@@ -75,12 +80,92 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-singlePro(){
-  this.router.navigate(['/ProPlayer'])
-}
 
-profile(){
-  this.router.navigate(['/profile'])
 
-}
+  singlePro() {
+    this.router.navigate(['/ProPlayer'])
+  }
+
+  profile() {
+    this.router.navigate(['/profile'])
+  }
+
+  userlists() {
+    this.router.navigate(['/userlists'])
+  }
+
+  party() {
+    this.router.navigate(['/party'])
+  }
+
+  reqlists(){
+    this.router.navigate(['/requests'])
+
+  }
+
+
+
+  proReq() {
+    let email = this._auth.getEmail()
+    this._auth.reqPro(email)
+      .subscribe(
+        {
+          next: (res) => {
+            if (res) {
+
+              Swal.fire({
+                icon: 'success',
+                title: 'Request Send',
+                showConfirmButton: false,
+                timer: 1500
+              }).then(() => {
+                this.router.navigate(['/dashboard'])
+              })
+
+            }
+          },
+          error: (err) => {
+            if (err.status === 409) {
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                showConfirmButton: false,
+                timer: 1500
+              }).then(() => {
+                this.router.navigate(['/login'])
+
+              })
+            }
+            else {
+              Swal.fire({
+                icon: 'error',
+                title: 'Network Error. Please try again',
+                showConfirmButton: false,
+                timer: 1500
+              }).then(() => {
+                this.router.navigate(['/login'])
+
+              })
+            }
+          }
+        }
+
+      )
+  }
+
+  joinParty(){
+    this._heroService.joinParty()
+    .subscribe(res=>{
+      console.log('success')
+      this.router.navigate(['/twitch'])
+    })
+  }
+
+  getParty(){
+    this._heroService.getParty()
+    .subscribe(res=>{
+      this.partyname=res
+      console.log(this.partyname)
+    })
+  }
 }

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {  Router } from '@angular/router';
+import { HeroService } from '../hero.service';
 
 @Component({
   selector: 'app-landing-page',
@@ -7,9 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LandingPageComponent implements OnInit {
 
-  constructor() { }
+  constructor(    public _auth: HeroService , private _router : Router
+    ) { }
 
   ngOnInit(): void {
   }
 
+  logout(){
+    localStorage.clear()
+    this._router.navigate(['/']);
+  }
 }

@@ -29,6 +29,13 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { StripeComponent } from './stripe/stripe.component';
 import { SingleProComponent } from './single-pro/single-pro.component';
 import { ProfileComponent } from './profile/profile.component';
+import { AboutUsComponent } from './about-us/about-us.component';
+import { UserListsComponent } from './user-lists/user-lists.component';
+import { PropartyComponent } from './proparty/proparty.component';
+import { StreamComponent } from './stream/stream.component';
+import { RequestsComponent } from './requests/requests.component';
+import { SocketComponent } from './socket/socket.component';
+import { SocketService } from './socket.service';
 
 @NgModule({
   declarations: [
@@ -41,7 +48,13 @@ import { ProfileComponent } from './profile/profile.component';
     DashboardComponent,
     StripeComponent,
     SingleProComponent,
-    ProfileComponent
+    ProfileComponent,
+    AboutUsComponent,
+    UserListsComponent,
+    PropartyComponent,
+    StreamComponent,
+    RequestsComponent,
+    SocketComponent
   ],
   imports: [
     BrowserModule,
@@ -56,7 +69,7 @@ import { ProfileComponent } from './profile/profile.component';
 
     
   ],
-  providers: [HeroService,
+  providers: [HeroService,SocketService,
     {
       provide: 'SocialAuthServiceConfig',
       useValue: {

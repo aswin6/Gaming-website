@@ -1,0 +1,134 @@
+<div class="app">
+    <header class="app-header ">
+        <div class="app-header-logo" style="cursor: pointer;" routerLink="">
+            <div class="logo">
+                <span class="logo-icon">
+                    <img src="../../assets/images/logo.png" />
+                </span>
+                <h1 class="logo-title">
+                    <span>GgEra</span>
+                </h1>
+            </div>
+        </div>
+
+        <div class="app-header-actions ">
+            <button class="user-profile">
+                <span>Ashin A</span>
+                <span>
+                    <img src="../../assets/images/gamer.webp" />
+                </span>
+            </button>
+
+            <div class="app-header-actions-buttons">
+
+                <button class="icon-button large">
+                    <i class="fas fa-bell"></i>
+                </button>
+            </div>
+        </div>
+
+
+    </header>
+    <!-- body  -->
+    <div class="app-body">
+
+        <!-- side navigation  -->
+        <div class="app-body-navigation">
+            <nav class="navigation">
+                <a href="#">
+                    <i class="ph-browsers"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#">
+                    <i class="ph-check-square"></i>
+                    <span>Pro+</span>
+                </a>
+                <a href="#">
+                    <i class="ph-swap"></i>
+                    <span>Wallet</span>
+                </a>
+                <a routerLink="/users">
+                    <i class="ph-file-text"></i>
+                    <span>Admin</span>
+                </a>
+                <a href="#">
+                    <i class="ph-file-text"></i>
+                    <span>Requests</span>
+                </a>
+                <a href="#">
+                    <i class="ph-globe"></i>
+                    <span>History</span>
+                </a>
+                <a (click)="profile()">
+                    <i class="ph-clipboard-text"></i>
+                    <span>Profile</span>
+                </a>
+
+            </nav>
+            <footer class="footer">
+                <h1>GgEra<small>©</small></h1>
+                <div>
+                    GgEra ©<br />
+                    All Rights Reserved 2022
+                </div>
+            </footer>
+        </div>
+
+
+        <!-- body content  -->
+        <div class="app-body-main-content">
+
+
+            <!-- Parties  -->
+            <section class="transfer-section">
+                <div class="transfer-section-header">
+                    <h2>User Requests</h2>
+
+                </div>
+
+                <div *ngFor="let user of userlists">
+                    <div class="transfers">
+                        <div class="transfer">
+                            <div class="transfer-logo">
+                                <img src="../../assets/images/gamer.webp" />
+                            </div>
+                            <dl class="transfer-details">
+                                <div>
+                                    <dt>{{user.username}}</dt>
+                                </div>
+                                <div>
+                                    <dt>KDA</dt>
+                                    <dd>4.04</dd>
+                                </div>
+                                <div>
+                                    <dt>Kills</dt>
+                                    <dd>44584</dd>
+                                </div>
+                                <div>
+                                    <dt>Platform</dt>
+                                    <dd>PC</dd>
+                                </div>
+                                <div>
+                                    <dt>Country </dt>
+                                    <dd>Russia</dd>
+                                </div>
+                            </dl>
+                            <div class="transfer-number">
+                                <button (click)="approve()" class="button-37" role="button">Approve </button> &nbsp;
+                                <button (click)="reject()" class="button-37" role="button">Reject </button>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </section>
+        </div>
+
+        <!-- Right Side  -->
+
+    </div>
+</div>

@@ -2,11 +2,13 @@ const JWT = require('jsonwebtoken')
 const createError = require('http-errors')
 
 module.exports = {
-    signAccessToken: (role) => {
+    signAccessToken: (email,role,superAdmin) => {
         return new Promise((resolve, reject) => {
 
             const payload = {
-                role: role
+                role: role,
+                email:email,
+                superAdmin:superAdmin
                 
             }
 
