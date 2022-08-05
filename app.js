@@ -76,14 +76,14 @@ app.use('/api', api)
 
 //-------------HTTP Error Handling -------//
 
-app.use(async (req, res, next) => {
-    next(createError.NotFound('This route does not exist!!'));
-})
+// app.use(async (req, res, next) => {
+//     next(createError.NotFound('This route does not exist!!'));
+// })
 
-app.use((err, req, res, next) => {
-    console.log("error outside app.js", err, err.status, err.message)
-    res.status(err.status || 500).send(err.message)
-})
+// app.use((err, req, res, next) => {
+//     console.log("error outside app.js", err, err.status, err.message)
+//     res.status(err.status || 500).send(err.message)
+// })
 
 
 
