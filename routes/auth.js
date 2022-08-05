@@ -38,7 +38,8 @@ router.post('/signUp', async (req, res, next) => {
             provider: 'mail',
             proPlayer: false,
             superAdmin: false,
-            otp: otp
+            otp: otp,
+            discordID:1002465326342094858
         }
 
         const doesExist = await USERDATA.findOne({ email: item.email })

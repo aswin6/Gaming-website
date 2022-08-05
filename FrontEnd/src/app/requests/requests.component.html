@@ -96,7 +96,7 @@
                             </div>
                             <dl class="transfer-details">
                                 <div>
-                                    <dt>{{user.username}}</dt>
+                                    <dt>{{user.email}}</dt>
                                 </div>
                                 <div>
                                     <dt>KDA</dt>
@@ -116,7 +116,7 @@
                                 </div>
                             </dl>
                             <div class="transfer-number">
-                                <button (click)="approve()" class="button-37" role="button">Approve </button> &nbsp;
+                                <button (click)="approve(user.email)" class="button-37" role="button">Approve </button> &nbsp;
                                 <button (click)="reject()" class="button-37" role="button">Reject </button>
 
 

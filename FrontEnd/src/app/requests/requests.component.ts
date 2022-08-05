@@ -26,7 +26,14 @@ export class RequestsComponent implements OnInit {
     this.router.navigate(['/profile'])
   }
 
-  approve(){}
+  approve(id:any){
+    this.hero.sendLink(id)
+    .subscribe(res=>{
+      this.userlists = res
+      console.log(res)
+    })
+
+  }
   reject(){}
 
 }

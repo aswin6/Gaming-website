@@ -5,8 +5,8 @@ const createError = require('http-errors')
 const auth = require('./auth')
 const jwt = require('jsonwebtoken');
 const PartyData = require('../model/partyData')
-const CoachData = require ('../model/coachData')
-
+const CoachData = require('../model/coachData')
+const { clientMessage } = require('../controller/bot')
 
 const stripe = require('stripe')('sk_test_51LT4FJSBGyD7UYjVVOug1IelJFPempEWB9h8c2O260SlpUzWMrJ9vo8Av6iKDbrv8oVOeNm5QjL6fpgCVbnQBpav00CpBjJ2kJ');
 
@@ -104,8 +104,8 @@ router.post('/coach', async (req, res) => {
     try {
 
         let item = {
-            email:req.body.email,
-            approve:false
+            email: req.body.email,
+            approve: false
         }
 
 
@@ -169,13 +169,26 @@ router.get('/party', async (req, res) => {
     }
 })
 
+router.post('/sendlink', async (req, res) => {
+    let email = req.body.id
+    const doesExist = await USERDATA.findOne({ email: email })
+
+    const discordID = doesExist.discordID
+    const discordMessage =  clientMessage(discordID)
+
+
+    res.send(discordMessage)
+
+
+})
+
 
 router.get('/joinparty', async (req, res) => {
     try {
 
         console.log("success")
         let result = 'success'
-        res.send({result})
+        res.send({ result })
     } catch (error) {
         console.log(error)
     }

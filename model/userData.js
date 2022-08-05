@@ -12,7 +12,7 @@ const userDataSchema = new Schema({
     proPlayer:Boolean,
     superAdmin:Boolean,
     adminReq:Boolean,
-    discordID:Number
+    discordID:String
 
 });
 

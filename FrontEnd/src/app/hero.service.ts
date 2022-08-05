@@ -15,8 +15,8 @@ interface MyToken {
   providedIn: 'root'
 })
 export class HeroService {
-  // server_address: string = "http://localhost:8887/api"
-  server_address: string = '/api';
+  server_address: string = "http://localhost:8887/api"
+  // server_address: string = '/api';
 
 
   constructor(private http: HttpClient) {}
@@ -118,5 +118,9 @@ export class HeroService {
   joinParty(){
     return this.http.get<any>(`${this.server_address}/joinparty`,);
 
+  }
+
+  sendLink(id:any){
+    return this.http.post<any>(`${this.server_address}/sendLink`,{id});
   }
 }
