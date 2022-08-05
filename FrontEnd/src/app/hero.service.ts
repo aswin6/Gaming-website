@@ -5,8 +5,8 @@ import jwt_decode from "jwt-decode"
 
 interface MyToken {
   role: string;
-  email: number;
-  superadmin: number;
+  email: string;
+  superAdmin: string;
  
   // whatever else is in the JWT.
 }
@@ -15,7 +15,9 @@ interface MyToken {
   providedIn: 'root'
 })
 export class HeroService {
-  server_address: string = "http://localhost:8887/api"
+  // server_address: string = "http://localhost:8887/api"
+  server_address: string = '/api';
+
 
   constructor(private http: HttpClient) {}
 
@@ -32,7 +34,8 @@ export class HeroService {
    isSuperAdmin(): boolean {
     var token = localStorage.getItem('accessToken') || '';
     var user = jwt_decode<MyToken>(token);
-    return user.role === 'super' ? true : false;
+    console.log(user.superAdmin,"super")
+    return user.superAdmin === 'super' ? true : false;
   }
    //normal Role Check
    isNormal(): boolean {

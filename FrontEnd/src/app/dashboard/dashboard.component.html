@@ -39,7 +39,7 @@
                     <i class="ph-browsers"></i>
                     <span>Dashboard</span>
                 </a>
-                <a (click)="party()">
+                <a (click)="party()" *ngIf="_auth.isPro()">
                     <i class="ph-check-square"></i>
                     <span>Pro+</span>
                 </a>
@@ -47,11 +47,11 @@
                     <i class="ph-swap"></i>
                     <span>Wallet</span>
                 </a>
-                <a (click)="userlists()">
+                <a (click)="userlists()"  *ngIf="_auth.isSuperAdmin()">
                     <i class="ph-file-text"></i>
                     <span>Admin</span>
                 </a>
-                <a (click)="reqlists()">
+                <a (click)="reqlists()" *ngIf="_auth.isPro()">
                     <i class="ph-file-text"></i>
                     <span>Requests</span>
                 </a>
@@ -165,7 +165,8 @@
                                 </div>
                             </dl>
                             <div class="transfer-number">
-                                <button (click)="joinParty()" class="button-37" role="button">Join Party <br> $ 16/hr</button>
+                                <button (click)="joinParty()" class="button-37" role="button">Join Party <br> $
+                                    16/hr</button>
 
                             </div>
                         </div>
@@ -202,7 +203,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="faq">
+                <div class="faq" *ngIf="_auth.isNormal()">
                     <p>Want to be a Pro?</p>
                     <div class="payment-section-footer">
                         <button class="save-button" (click)="proReq()">

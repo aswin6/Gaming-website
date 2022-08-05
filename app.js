@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const path = require('path');
 
 
 
@@ -21,7 +22,7 @@ var session = require('express-session')
 // const path = require('path');
 // const { verifyAccessToken } = require('./helpers/jwt_helper')
 
-
+app.use(express.static('public'));
 
 // require 
 require('dotenv').config();
@@ -36,6 +37,7 @@ const PORT = process.env.PORT || 8887;
 
 
 // app.use 
+app.use(express.static(__dirname +'/FrontEnd/dist/FrontEnd'));
 
 app.use(express.static('public'));
 app.use(logger('dev'));
@@ -82,6 +84,14 @@ app.use((err, req, res, next) => {
     console.log("error outside app.js", err, err.status, err.message)
     res.status(err.status || 500).send(err.message)
 })
+
+
+
+
+app.get('*', function (req, res) {
+    res.sendFile(path.join(__dirname + '/FrontEnd/dist/FrontEnd/index.html'));
+});
+
 
 
 

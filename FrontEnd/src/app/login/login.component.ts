@@ -103,8 +103,46 @@ export class LoginComponent implements OnInit {
 
   signInWithDiscord() {
     this._heroService.discordSign()
-      .subscribe(res => {
-        console.log(res)
+    .subscribe(
+      {
+        next: (res) => {
+          if (res) {
+            localStorage.setItem('accessToken', res.accessToken)
+            Swal.fire({
+              icon: 'success',
+              title: 'Sign Up successfully',
+              showConfirmButton: false,
+              timer: 1500
+            }).then(() => {
+              this.router.navigate(['/'])
+            })
+
+          }
+        },
+        error: (err) => {
+          if (err.status === 401) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Wrong OTP. Enter Again',
+              showConfirmButton: false,
+              timer: 1500
+            }).then(() => {
+              this.router.navigate(['/login'])
+
+            })
+          }
+          else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Network Error. Please try again',
+              showConfirmButton: false,
+              timer: 1500
+            }).then(() => {
+              this.router.navigate(['/login'])
+
+            })
+          }
+        }
       })
   }
 

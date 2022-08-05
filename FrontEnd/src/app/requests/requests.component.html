@@ -47,7 +47,7 @@
                     <i class="ph-swap"></i>
                     <span>Wallet</span>
                 </a>
-                <a routerLink="/users">
+                <a routerLink="/users"  *ngIf="_auth.isSuperAdmin()">
                     <i class="ph-file-text"></i>
                     <span>Admin</span>
                 </a>
@@ -65,6 +65,8 @@
                 </a>
 
             </nav>
+
+            <br><br><br>
             <footer class="footer">
                 <h1>GgEra<small>©</small></h1>
                 <div>

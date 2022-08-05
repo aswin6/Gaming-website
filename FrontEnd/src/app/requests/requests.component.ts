@@ -9,7 +9,7 @@ import { HeroService } from '../hero.service';
 })
 export class RequestsComponent implements OnInit {
 
-  constructor(private router: Router, private hero: HeroService) { }
+  constructor(private router: Router, private hero: HeroService, public _auth:HeroService) { }
 
   userlists: any
   ngOnInit(): void {

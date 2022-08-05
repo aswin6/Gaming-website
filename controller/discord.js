@@ -28,8 +28,8 @@ passport.deserializeUser(async (id, done) => {
 
 passport.use(new Strategy({
 
-    clientID: '1004491847609090179',
-    clientSecret: '43ye7zYeqHPX0vBDHdKah8-lgXGCin4j',
+    clientID: process.env.DISCORD_CLIENT_ID,
+    clientSecret: process.env.DISCORD_CLIENT_SECRET,
     callbackURL: 'http://localhost:8887/api/auth/discord/redirect',
     scope: ['identify', 'email']
 },
@@ -40,9 +40,17 @@ passport.use(new Strategy({
             const discordUser = await USERDATA.findOne({ email: profile.email })
 
             if (discordUser) {
-              const discordError =  createError.Conflict(`${profile.email} is already been registered by ${discordUser.provider}. Use it to login`)
-             console.log(discordError)
-              return done(null, discordUser)
+                if(discordUser.provider != 'discord'){
+                    const discordError =  createError.Conflict(`${profile.email} is already been registered by ${discordUser.provider}. Use it to login`)
+                    console.log(discordError)
+                    return done(null, null)
+                }
+             else{
+                console.log("User Exists")
+                return done(null, discordUser)
+
+
+             }
             }
             else {
 

@@ -34,7 +34,7 @@ client.on("disconnected", function () {
     process.exit(1);
 });
 
-client.login('MTAwNDQ5MTg0NzYwOTA5MDE3OQ.Gq4ln_.wbfNWKOyDMHutb2i1T6kNqOe7zg2FwbdpetyMk');
+client.login(process.env.DISCORD_BOT_TOKEN);
 
 
 

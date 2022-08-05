@@ -37,7 +37,7 @@ router.post('/signUp', async (req, res, next) => {
             email: req.body.email,
             provider: 'mail',
             proPlayer: false,
-            superAdmin:false,
+            superAdmin: false,
             otp: otp
         }
 
@@ -116,8 +116,8 @@ router.post('/verifyOTP', async (req, res, next) => {
         else {
 
             let role = user.proPlayer ? 'professional' : 'normal';
-            let superAdmin = user.superAdmin?'super':'normal'
-            const accessToken = await signAccessToken(email, role,superAdmin)
+            let superAdmin = user.superAdmin ? 'super' : 'normal'
+            const accessToken = await signAccessToken(email, role, superAdmin)
             res.send({ accessToken })
             console.log("access token", accessToken)
 
@@ -141,19 +141,17 @@ router.post('/verifyOTP', async (req, res, next) => {
 
 //discord
 router.get('/discord', passport.authenticate('discord'), (err) => {
-   if(err){
-    console.log(err, 'errorrrr')
-   }
-})
-
-router.get('/discord/redirect', passport.authenticate('discord'), (req, res) => {
-    try {
-
-        res.status(200).send("Added")
-    } catch (error) {
-        console.log('discord',error)
+    if (err) {
+        console.log(err, 'errorrrr')
     }
+
 })
+
+router.get('/discord/redirect', passport.authenticate('discord', {
+    failureRedirect: '/'
+}), function(req, res) {
+    res.send('success') // Successful auth
+});
 
 //google Save
 
@@ -167,7 +165,7 @@ router.post('/googleSave', async (req, res, next) => {
             email: req.body.email,
             provider: req.body.provider,
             proPlayer: false,
-            superAdmin:false
+            superAdmin: false
         }
 
         const doesExist = await USERDATA.findOne({ email: item.email })
@@ -175,8 +173,8 @@ router.post('/googleSave', async (req, res, next) => {
             if (doesExist.provider != item.provider) throw createError.Conflict(`${item.email} is already been registered by ${doesExist.provider}. Use it to login`)
 
             let role = doesExist.proPlayer ? 'professional' : 'normal';
-            let superAdmin = doesExist.superAdmin?'super':'normal'
-            const accessToken = await signAccessToken(item.email, role,superAdmin)
+            let superAdmin = doesExist.superAdmin ? 'super' : 'normal'
+            const accessToken = await signAccessToken(item.email, role, superAdmin)
             res.send({ accessToken })
             console.log("access token", accessToken)
         }
