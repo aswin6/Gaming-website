@@ -89,7 +89,7 @@ app.use('/api', api)
 
 
 app.get('*', function (req, res) {
-    res.sendFile(path.join(__dirname + './FrontEnd/dist/FrontEnd/index.html'));
+    res.sendFile(path.join(__dirname + '/FrontEnd/dist/FrontEnd/index.html'));
 });
 
 
@@ -97,6 +97,7 @@ app.get('*', function (req, res) {
 
 
 server.listen(PORT, () => {
+
     console.log(`.....SERVER started at ${PORT}`)
 });
 
