@@ -1,35 +1,35 @@
 const Discord = require("discord.js");
 
 
-const client = new Discord.Client({ intents: ["GUILDS", "GUILD_MESSAGES"] });
+const bot = new Discord.Client({ intents: ["GUILDS", "GUILD_MESSAGES"] });
 
 
-client.on('ready', () => {
-    console.log(`Logged in as ${client.user.tag}!`);
-    
+bot.on('ready', () => {
+    console.log(`Logged in as ${bot.user.tag}!`);
+
 });
 
 
 
-
-const clientMessage = (id ) => {
-        try {
-            console.log(id,"iddddddddd")
-            let string = id
-            client.users.fetch(id)
+const botMessage = (id, twitch) => {
+    try {
+        console.log(id, "iddddddddd")
+        let string = id
+        bot.users.fetch(string)
             .then(channel => {
-                channel.send("Hello here!");
+                channel.send(`https://www.twitch.tv/${twitch}`);
+
             })
-            
-        } catch (error) {
-            console.log(error)
-        }
+        return true
+    } catch (error) {
+        console.log(error)
+    }
 
 
-    
+
 }
 
-client.on("disconnected", function () {
+bot.on("disconnected", function () {
     // alert the console
     console.log("Disconnected!");
 
@@ -37,9 +37,9 @@ client.on("disconnected", function () {
     process.exit(1);
 });
 
-client.login(process.env.DISCORD_BOT_TOKEN);
+bot.login(process.env.DISCORD_BOT_TOKEN);
 
-module.exports = { clientMessage }
+module.exports = { botMessage }
 
 
 

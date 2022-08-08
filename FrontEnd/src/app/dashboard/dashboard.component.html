@@ -13,16 +13,16 @@
 
         <div class="app-header-actions ">
             <button class="user-profile">
-                <span>Ashin A</span>
+                <span>{{user.username}}</span>
                 <span>
-                    <img src="../../assets/images/gamer.webp" />
+                    <img src={{user.profile_pic}} />
                 </span>
             </button>
 
             <div class="app-header-actions-buttons">
 
-                <button class="icon-button large">
-                    <i class="fas fa-bell"></i>
+                <button (click)="logout()">
+                    Logout
                 </button>
             </div>
         </div>
@@ -43,21 +43,21 @@
                     <i class="ph-check-square"></i>
                     <span>Pro+</span>
                 </a>
-                <a href="#">
+                <!-- <a href="#">
                     <i class="ph-swap"></i>
                     <span>Wallet</span>
-                </a>
-                <a (click)="userlists()"  *ngIf="_auth.isSuperAdmin()">
+                </a> -->
+                <a (click)="userReq()" *ngIf="_auth.isSuperAdmin()">
                     <i class="ph-file-text"></i>
-                    <span>Admin</span>
+                    <span>User Request</span>
                 </a>
                 <a (click)="reqlists()" *ngIf="_auth.isPro()">
                     <i class="ph-file-text"></i>
                     <span>Requests</span>
                 </a>
-                <a href="#">
+                <a (click)="userLists()" *ngIf="_auth.isSuperAdmin() ">
                     <i class="ph-globe"></i>
-                    <span>History</span>
+                    <span>User Lists</span>
                 </a>
                 <a (click)="profile()">
                     <i class="ph-clipboard-text"></i>
@@ -165,7 +165,7 @@
                                 </div>
                             </dl>
                             <div class="transfer-number">
-                                <button (click)="joinParty()" class="button-37" role="button">Join Party <br> $
+                                <button (click)="joinParty(item.email)" class="button-37" role="button">Join Party <br> $
                                     16/hr</button>
 
                             </div>

@@ -6,7 +6,7 @@ const auth = require('./auth')
 const jwt = require('jsonwebtoken');
 const PartyData = require('../model/partyData')
 const CoachData = require('../model/coachData')
-const { clientMessage } = require('../controller/bot')
+const { botMessage } = require('../controller/bot')
 
 const stripe = require('stripe')('sk_test_51LT4FJSBGyD7UYjVVOug1IelJFPempEWB9h8c2O260SlpUzWMrJ9vo8Av6iKDbrv8oVOeNm5QjL6fpgCVbnQBpav00CpBjJ2kJ');
 
@@ -146,12 +146,12 @@ router.post('/party', async (req, res) => {
     try {
 
         let item = {
-            game: req.body.data.game
+            game: req.body.data.game,
+            email: req.body.email
         }
-        console.log(req.body.data.game)
+        console.log(req.body)
         const USER = new PartyData(item)
         const savedIdData = await USER.save()
-        console.log('yes')
         res.send(savedIdData)
 
     } catch (error) {
@@ -169,12 +169,13 @@ router.get('/party', async (req, res) => {
     }
 })
 
-router.post('/sendlink', async (req, res) => {
+router.post('/sendlink_approve', async (req, res) => {
     let email = req.body.id
     const doesExist = await USERDATA.findOne({ email: email })
 
-    const discordID = doesExist.discordID
-    const discordMessage =  clientMessage(discordID)
+    const discordID = doesExist.discord_id
+    const twitchID = doesExist.channel_name
+    const discordMessage = botMessage(discordID,twitchID)
 
 
     res.send(discordMessage)
@@ -183,12 +184,52 @@ router.post('/sendlink', async (req, res) => {
 })
 
 
-router.get('/joinparty', async (req, res) => {
+router.post('/joinparty', async (req, res) => {
     try {
 
-        console.log("success")
-        let result = 'success'
-        res.send({ result })
+        let email = req.body.id
+
+        const doesExist = await USERDATA.findOne({ email: email })
+        const twitchID = doesExist.channel_name
+        // const binded = await USERDATA.aggregate([{
+
+        //     $lookup: {
+        //         from: "partydatas",
+        //         localField: "email",
+        //         foreignField: "email",
+        //         as: "party_created"
+        //     }
+        // }])
+        // let twitch = twitchID.channel_name
+
+        res.send( {twitchID})
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+
+router.post('/user', async (req, res) => {
+    try {
+
+        let email = req.body.data
+        console.log(req.body)
+        const doesExist = await USERDATA.findOne({ email: email })
+        res.send(doesExist)
+
+    } catch (error) {
+        console.log(error)
+
+    }
+
+
+
+})
+
+router.get('/users', async (req, res) => {
+    try {
+        const userLists = await USERDATA.find()
+        res.send(userLists)
     } catch (error) {
         console.log(error)
     }

@@ -36,6 +36,8 @@ import { StreamComponent } from './stream/stream.component';
 import { RequestsComponent } from './requests/requests.component';
 import { SocketComponent } from './socket/socket.component';
 import { SocketService } from './socket.service';
+import { LoadingComponent } from './loading/loading.component';
+import { UserReqComponent } from './user-req/user-req.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +56,9 @@ import { SocketService } from './socket.service';
     PropartyComponent,
     StreamComponent,
     RequestsComponent,
-    SocketComponent
+    SocketComponent,
+    LoadingComponent,
+    UserReqComponent
   ],
   imports: [
     BrowserModule,

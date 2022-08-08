@@ -27,13 +27,22 @@ export class RequestsComponent implements OnInit {
   }
 
   approve(id:any){
-    this.hero.sendLink(id)
+    this.hero.sendLinkApprove(id)
     .subscribe(res=>{
       this.userlists = res
       console.log(res)
     })
 
   }
-  reject(){}
+  reject(id:any){
+
+    this.hero.sendLinkReject(id)
+    .subscribe(res=>{
+      this.userlists = res
+      console.log(res)
+    })
+
+
+  }
 
 }

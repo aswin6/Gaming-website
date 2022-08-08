@@ -5,7 +5,7 @@
             <form [formGroup]="SignUpForm" (ngSubmit)="SignUp()" *ngIf="!otp">
                 <h1>Sign In</h1>
                 <div class="social-container">
-                    <a href="http://localhost:8887/api/auth/discord" style="cursor:pointer ;">
+                    <a  href="http://localhost:8887/api/auth/discord" style="cursor:pointer ;">
                         <i class="fab fa-discord"></i></a>
                     <a (click)="signInWithGoogle()" style="cursor:pointer ;">
                         <asl-google-signin-button #googleBtnRef></asl-google-signin-button>

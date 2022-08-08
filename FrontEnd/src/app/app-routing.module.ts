@@ -12,6 +12,8 @@ import { PropartyComponent } from './proparty/proparty.component';
 import { StreamComponent } from './stream/stream.component';
 import { RequestsComponent } from './requests/requests.component';
 import { SocketComponent } from './socket/socket.component';
+import { LoadingComponent } from './loading/loading.component';
+import { UserReqComponent } from './user-req/user-req.component';
 
 const routes: Routes = [
 
@@ -27,6 +29,10 @@ const routes: Routes = [
   {
     path:'login',
     component:LoginComponent
+  },
+  {
+    path:'loading',
+    component:LoadingComponent
   },
   {
     path:'dashboard',
@@ -45,8 +51,12 @@ const routes: Routes = [
     component:ProfileComponent  
   },
   {
-    path:'userlists',
+    path:'userLists',
     component:UserListsComponent  
+  },
+  {
+    path:'userReq',
+    component:UserReqComponent  
   },
   {
     path:'party',

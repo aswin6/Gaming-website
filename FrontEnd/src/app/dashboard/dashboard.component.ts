@@ -23,12 +23,23 @@ export class DashboardComponent implements OnInit {
 
   failure: boolean = false
 
-  partyname : any
+  partyname: any
+
+  user:any
 
   ngOnInit(): void {
     this.invokeStripe()
     this.getParty()
+    this.userData()
+  }
 
+  userData() {
+    let email = this._heroService.getEmail()
+    this._heroService.getUserDetail(email).
+      subscribe(res => {
+        this.user = res
+       
+      })
   }
 
   makePayment(amount: number) {
@@ -43,7 +54,6 @@ export class DashboardComponent implements OnInit {
 
     const paymentstripe = (stripeToken: any) => {
       this._heroService.makePayment(stripeToken).subscribe((data: any) => {
-        console.log(data);
         if (data.data === "success") {
           this.success = true
         }
@@ -90,15 +100,19 @@ export class DashboardComponent implements OnInit {
     this.router.navigate(['/profile'])
   }
 
-  userlists() {
-    this.router.navigate(['/userlists'])
+  userLists() {
+    this.router.navigate(['/userLists'])
+  }
+
+  userReq() {
+    this.router.navigate(['/userReq'])
   }
 
   party() {
     this.router.navigate(['/party'])
   }
 
-  reqlists(){
+  reqlists() {
     this.router.navigate(['/requests'])
 
   }
@@ -153,19 +167,27 @@ export class DashboardComponent implements OnInit {
       )
   }
 
-  joinParty(){
-    this._heroService.joinParty()
-    .subscribe(res=>{
-      console.log('success')
-      this.router.navigate(['/twitch'])
-    })
+  joinParty(email:any) {
+    let data=email
+    this._heroService.joinParty(data)
+      .subscribe(res => {
+        localStorage.setItem('twitch', res.twitchID)
+        console.log('partRes',res)
+
+        this.router.navigate(['/twitch'])
+      })
   }
 
-  getParty(){
+  getParty() {
     this._heroService.getParty()
-    .subscribe(res=>{
-      this.partyname=res
-      console.log(this.partyname)
-    })
+      .subscribe(res => {
+        this.partyname = res
+        
+      })
+  }
+
+  logout(){
+    localStorage.clear()
+    this.router.navigate(['/']);
   }
 }

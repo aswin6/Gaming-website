@@ -7,12 +7,17 @@ const userDataSchema = new Schema({
 
     username: String,
     otp: Number,
+    profile_pic:String,
+    phone_number:String,
+    channel_name: String,
     email: String,
     provider:String,
     proPlayer:Boolean,
     superAdmin:Boolean,
     adminReq:Boolean,
-    discordID:String
+    discord_id:String,
+    current_balance: String,
+    status:Boolean
 
 });
 

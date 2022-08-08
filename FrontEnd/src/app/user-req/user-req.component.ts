@@ -3,23 +3,22 @@ import { Router } from '@angular/router';
 import { HeroService } from '../hero.service';
 import Swal from 'sweetalert2';
 
-
 @Component({
-  selector: 'app-user-lists',
-  templateUrl: './user-lists.component.html',
-  styleUrls: ['./user-lists.component.scss']
+  selector: 'app-user-req',
+  templateUrl: './user-req.component.html',
+  styleUrls: ['./user-req.component.scss']
 })
-export class UserListsComponent implements OnInit {
+export class UserReqComponent implements OnInit {
 
 
   userlists: any
 
-  
+
   constructor(private router: Router, private _heroService: HeroService, public _auth: HeroService
   ) { }
 
 
- 
+
 
   paymentHandler: any = null;
 
@@ -42,7 +41,6 @@ export class UserListsComponent implements OnInit {
     this._heroService.getUserDetail(email).
       subscribe(res => {
         this.user = res
-        console.log(this.user.username)
       })
   }
 
@@ -141,15 +139,13 @@ export class UserListsComponent implements OnInit {
   // }
 
   userLists1() {
-    this._heroService.getReq()
+    this._heroService.getAllUsers()
       .subscribe(res => {
         this.userlists = res
-        console.log(res)
       })
 
   }
-
-  logout(){
+  logout() {
     localStorage.clear()
     this.router.navigate(['/']);
   }

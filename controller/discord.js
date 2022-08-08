@@ -1,26 +1,27 @@
-const UserData = require('../model/userData');
-const USERDATA = require('../model/userData');
 const createError = require('http-errors');
 
 const passport = require('passport')
 const { Strategy } = require('passport-discord');
 
+const USERDATA = require('../model/userData');
 
 passport.serializeUser((user, done) => {
-    console.log("serializer", user.id)
+    console.log('serializer')
     done(null, user.id);
 });
 
 passport.deserializeUser(async (id, done) => {
     try {
-        const user = await UserData.findById(id)
-        if (!user) throw new Error('User not Found')
 
-        console.log(user, 'deserializer')
+        console.log( 'deserializer')
+
+        const user = await USERDATA.findById(id)
+ 
+
         done(null, user)
 
-    } catch (error) {
-        console.log(error, 'deserializer')
+    } catch (err) {
+        console.log(err, 'deserializer')
         done(err, null)
     }
 });
@@ -40,17 +41,15 @@ passport.use(new Strategy({
             const discordUser = await USERDATA.findOne({ email: profile.email })
 
             if (discordUser) {
-                if(discordUser.provider != 'discord'){
-                    const discordError =  createError.Conflict(`${profile.email} is already been registered by ${discordUser.provider}. Use it to login`)
-                    console.log(discordError)
-                    return done(null, null)
+                if (discordUser.provider === 'discord') {
+                    console.log('user is found')
+                    return done(null, discordUser)
                 }
-             else{
-                console.log("User Exists")
-                return done(null, discordUser)
+                else {
+                    console.log("User Exists")
+                    return done(null, null)
 
-
-             }
+                }
             }
             else {
 
@@ -59,10 +58,11 @@ passport.use(new Strategy({
                     email: profile.email,
                     provider: profile.provider,
                     proPlayer: false,
+                    discordID: profile.id
                 }
 
 
-                const USER = new USERDATA(item)
+                const USER = await USERDATA(item)
                 const savedIdData = await USER.save()
                 console.log("User Created")
 
@@ -71,7 +71,7 @@ passport.use(new Strategy({
 
 
         } catch (err) {
-            console.log(err);
+            console.log(' catch error',err);
             return done(err, null)
 
         }

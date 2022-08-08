@@ -1,11 +1,13 @@
 const express = require('express');
 const router = express.Router()
-const USERDATA = require('../model/userData');
 const createError = require('http-errors')
 const passport = require('passport')
 const { generateOTP } = require('../helpers/otp-generator');
 const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
+const USERDATA = require('../model/userData');
+const fetch = require('node-fetch')
+
 
 //email
 
@@ -39,7 +41,7 @@ router.post('/signUp', async (req, res, next) => {
             proPlayer: false,
             superAdmin: false,
             otp: otp,
-            discordID:1002465326342094858
+            discordID: 1002465326342094858
         }
 
         const doesExist = await USERDATA.findOne({ email: item.email })
@@ -141,6 +143,16 @@ router.post('/verifyOTP', async (req, res, next) => {
 
 
 //discord
+
+// router.get('/discordStart', passport.authenticate('discord'), (req,res) => {
+//     request('http://localhost:8887/api/auth/discord',
+//     function (error, response, body) {
+//         console.log('entreed discord')
+//         res.send(body)
+//    });  
+// })
+
+
 router.get('/discord', passport.authenticate('discord'), (err) => {
     if (err) {
         console.log(err, 'errorrrr')
@@ -149,10 +161,13 @@ router.get('/discord', passport.authenticate('discord'), (err) => {
 })
 
 router.get('/discord/redirect', passport.authenticate('discord', {
-    failureRedirect: '/'
-}), function(req, res) {
-    res.send('success') // Successful auth
+    failureRedirect: '/forbidden',
+    successRedirect: "/dashboard1"
+}), (req, res) => {
+    res.send(200) // Successful auth
 });
+
+
 
 //google Save
 

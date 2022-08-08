@@ -2,7 +2,8 @@ const express = require('express');
 const app = express();
 const path = require('path');
 
-
+const cookieParser = require("cookie-parser");
+app.use(cookieParser());
 
 const mongoose = require('mongoose');
 const logger = require('morgan');
@@ -11,14 +12,15 @@ app.use(cors());
 
 
 // for socket 
-let http = require('http');
-let server = http.Server(app);
-let socketIO = require('socket.io');
-let io = socketIO(server);
+const http = require('http');
+const server = http.Server(app);
+const socketIO = require('socket.io');
+const io = socketIO(server);
 
 
 const createError = require('http-errors');
-var session = require('express-session')
+const session = require('express-session')
+const passport = require('passport')
 // const path = require('path');
 // const { verifyAccessToken } = require('./helpers/jwt_helper')
 
@@ -46,9 +48,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(session({      //session creation
     secret: 'keyboard cat',
     resave: true,
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: { secure: false }
 }));
+app.use(passport.initialize())
+app.use(passport.session())
 
 require('./controller/discord')
 
@@ -64,7 +68,15 @@ require('./controller/discord')
 
 // api 
 const api = require('./routes/api')
+const dashboard1 = require('./routes/dashboard')
+const forbidden = require('./routes/forbidden')
+
+
 app.use('/api', api)
+app.use('/forbidden', forbidden)
+app.use('/dashboard1', dashboard1)
+
+
 
 
 

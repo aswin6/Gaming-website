@@ -3,7 +3,7 @@ import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import {
   GoogleLoginProvider
 } from '@abacritt/angularx-social-login';
-import { Router } from '@angular/router';
+import { Router,ActivatedRoute  } from '@angular/router';
 import { FormGroup, FormControl, Validators, FormBuilder } from "@angular/forms";
 import { HeroService } from '../hero.service';
 import Swal from 'sweetalert2';
@@ -22,13 +22,21 @@ export class LoginComponent implements OnInit {
   socialUser!: SocialUser;
   isLoggedin: boolean = false;
   otp: boolean = false
+  discordFlag:boolean=false
+  URLid: any;
 
   constructor(private authService: SocialAuthService,
     private router: Router,
-    private _heroService: HeroService
+    private _heroService: HeroService,
+    private activated:ActivatedRoute
   ) { }
 
+
   ngOnInit(): void {
+
+    
+    // this.URLid = this.activated.snapshot.paramMap.get('id');
+    // console.log("id", this.URLid)
 
     this.authService.authState.subscribe((user) => {
       this.socialUser = user;
@@ -91,6 +99,8 @@ export class LoginComponent implements OnInit {
         console.log("no", this.socialUser)
       }
     });
+
+
   }
 
   signInWithGoogle(): void {
@@ -99,7 +109,13 @@ export class LoginComponent implements OnInit {
         console.log(res, "res")
         this.router.navigate(['/'])
       })
+
   }
+
+  // signInWithDiscord(){
+
+  //   window.location.href='http://localhost:8887/api/auth/discord'
+  // }
 
   signInWithDiscord() {
     this._heroService.discordSign()
@@ -114,7 +130,7 @@ export class LoginComponent implements OnInit {
               showConfirmButton: false,
               timer: 1500
             }).then(() => {
-              this.router.navigate(['/'])
+              this.router.navigate(['/dashboard'])
             })
 
           }
@@ -235,7 +251,7 @@ export class LoginComponent implements OnInit {
                 showConfirmButton: false,
                 timer: 1500
               }).then(() => {
-                this.router.navigate(['/'])
+                this.router.navigate(['/dashboard'])
               })
 
             }
@@ -248,6 +264,7 @@ export class LoginComponent implements OnInit {
                 showConfirmButton: false,
                 timer: 1500
               }).then(() => {
+                localStorage.clear()
                 this.router.navigate(['/login'])
 
               })
