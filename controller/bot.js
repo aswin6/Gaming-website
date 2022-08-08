@@ -17,7 +17,9 @@ const botMessage = (id, twitch) => {
         let string = id
         bot.users.fetch(string)
             .then(channel => {
-                channel.send(`https://www.twitch.tv/${twitch}`);
+                channel.send(` https://discordapp.com/channels/@me/997360695807057940/`)
+
+                // channel.send(`https://www.twitch.tv/${twitch}`);
 
             })
         return true
@@ -26,6 +28,10 @@ const botMessage = (id, twitch) => {
     }
 
 
+
+}
+
+const botServerLink = ()=>{
 
 }
 
@@ -39,7 +45,7 @@ bot.on("disconnected", function () {
 
 bot.login(process.env.DISCORD_BOT_TOKEN);
 
-module.exports = { botMessage }
+module.exports = { botMessage,botServerLink }
 
 
 

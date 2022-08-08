@@ -5,6 +5,13 @@ const { Strategy } = require('passport-discord');
 
 const USERDATA = require('../model/userData');
 
+const {Welcome_Mailer} = require('./nodemailer')
+
+
+
+
+
+
 passport.serializeUser((user, done) => {
     console.log('serializer')
     done(null, user.id);
@@ -61,10 +68,11 @@ passport.use(new Strategy({
                     discordID: profile.id
                 }
 
-
                 const USER = await USERDATA(item)
                 const savedIdData = await USER.save()
-                console.log("User Created")
+                const welcomeMessage = await Welcome_Mailer(item.email)
+
+                console.log("User Created",welcomeMessage)
 
                 return done(null, savedIdData)
             }

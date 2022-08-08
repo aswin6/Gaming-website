@@ -1,6 +1,6 @@
 require('dotenv').config();
 module.exports = {
-  SERVER_PORT: process.env.PORT || 88847,
+  SERVER_PORT: process.env.PORT || 8887,
   SERVER_DB_URI: process.env.DB_URI,
   JWT_SECRET: 'thisIsASimpleTest',
   OTP_LENGTH: 10,
